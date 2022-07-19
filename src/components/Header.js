@@ -94,6 +94,8 @@ const styles = {
     borderRadius: "4px",
     padding: 10,
     margin:10,
-    fontSize:15
+    fontSize:15,
+    fontWeight:'900',
+    border:0
   },
 };

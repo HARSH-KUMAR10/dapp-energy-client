@@ -1,5 +1,5 @@
-const server = "http://localhost:8001";
-// const server = "/api";
+const keys = require('../../Keys');
+
 export default function Holdings({
   sr,
   units,
@@ -9,7 +9,7 @@ export default function Holdings({
   sold,
 }) {
     const removeHolding=async(id)=>{
-        await fetch(`${server}/removeHoliding?id=${id}`).then(res=>res.json()).then(data=>{
+        await fetch(`${keys.server}/removeHoliding?id=${id}`).then(res=>res.json()).then(data=>{
             if(data.success){
                 alert('Holding deleted');
                 window.location.reload();
@@ -20,10 +20,11 @@ export default function Holdings({
         )
     }
   return (
-    <tr style={{ fontSize: 15 }}>
+    <tr style={{ fontSize: 13 }}>
       <td>{sr}</td>
       <td>{units}</td>
       <td>{price}</td>
+      <td>{units*price}</td>
       <td>
         {admin ? (
           <div className="badge bg-success">Approved</div>
@@ -39,7 +40,7 @@ export default function Holdings({
         )}
       </td>
       <td>
-        <button className="btn btn-danger" onClick={()=>removeHolding(id)}>X</button>
+        <button style={{fontSize:10,fontFamily:'verdana'}} className="btn btn-danger" onClick={()=>removeHolding(id)}>X</button>
       </td>
     </tr>
   );

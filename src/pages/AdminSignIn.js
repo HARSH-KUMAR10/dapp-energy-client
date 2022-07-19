@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 
-const server = "http://localhost:8001";
-// const server = "/api";
 export default function AdminSignIn() {
   const checkData = (x) => {
     if (x === null || x === undefined || x === "" || x.length === 0) {
@@ -73,7 +71,7 @@ export default function AdminSignIn() {
             placeholder="Enter password"
             value={pass}
           />
-          <br />
+          <br /><br/>
           <input type="submit" value="Submit" style={styles.submit} />
         </form>
       ) : (
@@ -87,20 +85,21 @@ export default function AdminSignIn() {
 
 const styles = {
   signInHere: {
-    fontFamily: "monospace",
+    fontFamily: "Arima",
     backgroundColor: "#4CAF50",
     color: "black",
     padding: "12px 20px",
-    width: "40%",
+    display:'inline-block',
+    fontWeight:'900',
     margin: "15px 4px",
     textAlign: "center",
     borderRadius: "4px",
   },
   formOnly: {
     borderRadius: "5px",
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#ccc",
     padding: 20,
-    margin: 20,
+    margin: '1% 5%',
   },
   input: {
     padding: "12px 20px",
@@ -117,10 +116,13 @@ const styles = {
     width: "29%",
     margin: "8px 0",
     cursor: "pointer",
-    fontFamily: "Verdana",
+    fontFamily: "Arima",
     borderRadius: "4px",
+    border:0
   },
   label: {
-    fontFamily: "Times new Roman",
+    fontFamily: "Arima",
+    fontSize:13,
+    fontWeight:'900'
   },
 };

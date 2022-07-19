@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
+const keys = require('../Keys')
 
-const server = "http://localhost:8001";
-// const server = "/api";
 export default function Wallet() {
   const [email, setEmail] = useState("");
   const [id, setId] = useState("");
@@ -31,7 +30,7 @@ export default function Wallet() {
   const updateWallet = async (evt) => {
     evt.preventDefault();
     await fetch(
-      `${server}/updateWallet?wallet=${
+      `${keys.server}/updateWallet?wallet=${
         parseInt(wallet) + parseInt(newWallet)
       }&_id=${id}`
     )
@@ -59,8 +58,8 @@ export default function Wallet() {
           padding: 20,
         }}
       >
-        <h4>{email}</h4>
-        <h4>Wallet : {wallet}$</h4>
+        <h5>{email}</h5>
+        <h5>Wallet : {wallet}$</h5>
       </div>
       <form style={styles.formOnly} onSubmit={(evt) => updateWallet(evt)}>
         {error ? (
@@ -94,30 +93,45 @@ export default function Wallet() {
 }
 
 const styles = {
+  signInHere: {
+    fontFamily: "Arima",
+    backgroundColor: "#4CAF50",
+    color: "black",
+    padding: "12px 20px",
+    margin: "15px 4px",
+    textAlign: "center",
+    borderRadius: "4px",
+    display:'inline-block',
+    fontWeight:'900',
+  },
   formOnly: {
     borderRadius: "5px",
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#ccc",
     padding: 20,
-    margin: "20px 5px",
+    margin: '1% 5%',
   },
   input: {
     padding: "12px 20px",
     width: "50%",
     margin: "8 0",
     border: "1px solid #ccc",
-    borderRadius: "4px",
     fontFamily: "Verdana",
+    borderRadius: "4px",
   },
   submit: {
     backgroundColor: "#4CAF50",
     color: "black",
     padding: "12px 20px",
     width: "29%",
-    borderRadius: "4px",
+    margin: "8px 0",
     cursor: "pointer",
-    fontFamily: "Verdana",
+    fontFamily: "Arima",
+    borderRadius: "4px",
+    border:0
   },
   label: {
-    fontFamily: "Times new Roman",
+    fontFamily: "Arima",
+    fontSize:13,
+    fontWeight:'900'
   },
 };

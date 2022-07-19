@@ -1,11 +1,9 @@
 import { useState, useEffect, useReducer } from "react";
 import Gun from "gun/gun";
-
-const server = "http://localhost:8001";
-// const server = "/api";
+const keys = require('../../Keys');
 
 const gun = Gun({
-  peers: [`${server}/gun`],
+  peers: [`${keys.server}/gun`],
 });
 
 export default function OnSale({ name, units, price, _id }) {
@@ -49,7 +47,7 @@ export default function OnSale({ name, units, price, _id }) {
       );
       if (choice) {
         await fetch(
-          `${server}/createTransaction?from=${name}&to=${email}&units=${units}&total=${
+          `${keys.server}/createTransaction?from=${name}&to=${email}&units=${units}&total=${
             units * price
           }&id=${_id}`
         )
@@ -85,7 +83,7 @@ export default function OnSale({ name, units, price, _id }) {
               );
               //Gun JS
               await fetch(
-                `${server}/updateWallet?wallet=${
+                `${keys.server}/updateWallet?wallet=${
                   parseInt(wallet) - parseInt(units * price)
                 }&_id=${id}`
               )
@@ -112,7 +110,7 @@ export default function OnSale({ name, units, price, _id }) {
     }
   };
   return (
-    <div style={styles.contianer} key={Math.floor(Math.random() * 1000)}>
+    <div className="col-md-5 col-12" style={styles.contianer} key={Math.floor(Math.random() * 1000)}>
       {error ? (
         <>
           <label style={{ color: "red", fontWeight: 800, fontSize: 20 }}>
@@ -124,7 +122,7 @@ export default function OnSale({ name, units, price, _id }) {
         <></>
       )}
       <div className="row">
-        <h5 className="col-10">Seller : {name}</h5>
+        <h5 className="col-10" style={{fontWeight:'900'}}>Seller : {name}</h5>
         <button
           style={{
             backgroundColor: "#2962ff",
@@ -138,9 +136,7 @@ export default function OnSale({ name, units, price, _id }) {
           Buy
         </button>
       </div>
-      <br />
       <hr />
-      <br />
       <div
         style={{
           display: "flex",
@@ -148,8 +144,9 @@ export default function OnSale({ name, units, price, _id }) {
           justifyContent: "space-between",
         }}
       >
-        <h5>Units : {units}</h5>
-        <h5>Price/Unit : {price}</h5>
+        <h6>Units: {units}</h6>
+        <h6>Price/Unit: {price}</h6>
+        <h6>Total Cost: {units*price}</h6>
       </div>
     </div>
   );
@@ -157,12 +154,10 @@ export default function OnSale({ name, units, price, _id }) {
 
 const styles = {
   contianer: {
-    display: "inline-block",
     border: "1px solid gray",
-    width: "28%",
     padding: 20,
-    fontFamily: "monospace",
-    margin: 10,
-    borderRadius: "4px",
+    fontFamily: "Arima",
+    margin:10,
+    borderRadius: 5,
   },
 };

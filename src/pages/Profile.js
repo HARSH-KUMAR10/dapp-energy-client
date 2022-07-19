@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Holdings from "../components/profile-components/Holdings";
 import Transaction from "../components/profile-components/Transaction";
+const keys = require('../Keys');
 
-
-const server = "http://localhost:8001";
-// const server = "/api";
 export default function Profile() {
   const [email, setEmail] = useState("");
   const [id, setId] = useState("");
@@ -42,7 +40,7 @@ export default function Profile() {
   };
   const saveHolding = async () => {
     await fetch(
-      `${server}/createHolding?email=${email}&id=${id}&units=${newUnits}&price=${newPrice}`
+      `${keys.server}/createHolding?email=${email}&id=${id}&units=${newUnits}&price=${newPrice}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -56,7 +54,7 @@ export default function Profile() {
       });
   };
   const getHoldings = async () => {
-    await fetch(`${server}/readHoldingById?id=${id}`)
+    await fetch(`${keys.server}/readHoldingById?id=${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -70,7 +68,7 @@ export default function Profile() {
       });
   };
   const getTransactions = async () => {
-    await fetch(`${server}/readTransacionByEmail?email=${email}`)
+    await fetch(`${keys.server}/readTransacionByEmail?email=${email}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -95,9 +93,9 @@ export default function Profile() {
           padding: 20,
         }}
       >
-        <h4>{email}</h4>
-        <h4>Wallet : {wallet}$</h4>
-        <form style={styles.submit}>
+        <h5>{email}</h5>
+        <h5>Wallet : {wallet}$</h5>
+        <form>
           <a href="/wallet" style={styles.submit}>
             Add Money (+)
           </a>
@@ -111,9 +109,9 @@ export default function Profile() {
           padding: 20,
         }}
       >
-        <h3 style={{ fontFamily: "monospace" }}>Your Holdings</h3>
+        <h4 style={{ fontFamily: "Arima" }}>Your Holdings</h4>
         {form ? (
-          <div>
+          <div style={{fontFamily:'Arima'}}>
             <input
               type="text"
               placeholder="Enter Units"
@@ -136,16 +134,17 @@ export default function Profile() {
               onClick={() => {
                 saveHolding();
               }}
+              style={{fontFamily:'Arima'}} className="btn btn-success"
             >
               +
             </button>
           </div>
         ) : (
-          <button onClick={() => openForm()}>Add new holding +</button>
+          <button style={{fontFamily:'Arima'}} className="btn btn-success" onClick={() => openForm()}>Add new holding +</button>
         )}
       </div>
 
-      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
+      <div style={{ padding:'0% 10%'}}>
         {error ? (
           <>
             <label style={{ color: "red", fontWeight: 800, fontSize: 20 }}>
@@ -157,26 +156,28 @@ export default function Profile() {
           <></>
         )}
         {holdings.length === 0 ? (
-          <h4>
+          <h5>
             Your current holding is empty, add new holding to sell electricity
-          </h4>
+          </h5>
         ) : (
           <>
             <table
               cellSpacing={0}
               cellPadding={10}
-              style={{ width: "100%", border: "1px solid black" }}
+              style={{ width: "100%", border: "1px solid black",fontFamily:'Arima' }}
             >
               <tr
                 style={{
-                  fontSize: 18,
+                  fontSize: 17,
                   backgroundColor: "blue",
                   color: "white",
+                  fontWeight:'900'
                 }}
               >
                 <td>Sr</td>
                 <td>Units</td>
                 <td>Price</td>
+                <td>Total</td>
                 <td>Admin</td>
                 <td>Status</td>
                 <td>Action</td>
@@ -196,28 +197,29 @@ export default function Profile() {
           </>
         )}
       </div>
-      <h3 style={{ fontFamily: "monospace", padding: 20 }}>Transactions</h3>
-      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
+      <h4 style={{ fontFamily: "Arima", paddingTop: 40,paddingLeft:20 }}>Transactions</h4>
+      <div style={{ padding:'0% 10%'}}>
         {transactions.length === 0 ? (
-          <h4>Your have no transactions, buy or sell energy units now.</h4>
+          <h5>Your have no transactions, buy or sell energy units now.</h5>
         ) : (
           <>
             <table
               cellSpacing={0}
               cellPadding={10}
-              style={{ width: "100%", border: "1px solid black" }}
+              style={{ width: "100%", border: "1px solid black",fontFamily:'Arima' }}
             >
               <tr
                 style={{
-                  fontSize: 18,
+                  fontSize: 17,
                   backgroundColor: "blue",
                   color: "white",
+                  fontWeight:'900'
                 }}
               >
                 <td>From</td>
                 <td>To</td>
                 <td>Units</td>
-                <td>Price</td>
+                <td>Total</td>
               </tr>
               {transactions.map((item, index) =>
                 item.From === email || item.To === email ? (
@@ -246,10 +248,9 @@ const styles = {
   submit: {
     backgroundColor: "#4CAF50",
     color: "black",
-    padding: "3px",
-    margin: "1px",
-    fontFamily: "Verdana",
-    borderRadius: "4px",
+    padding: 10,
+    fontFamily: "Arima",
+    borderRadius: 5,
     textDecoration: "none",
   },
 };

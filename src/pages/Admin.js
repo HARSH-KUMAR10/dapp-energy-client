@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useReducer } from "react";
 import AdminHeader from "../components/AdminHeader";
 import Gun from "gun/gun";
-
-const server = "http://localhost:8001";
-// const server = "/api";
+const keys = require('../Keys');
 
 const gun = Gun({
-  peers: [`${server}/gun`],
+  peers: [`${keys.server}/gun`],
 });
 
 const initialState = {
@@ -59,19 +57,19 @@ export default function Admin() {
       alert(localStorage.getItem("_id"));
       window.location.href="/admin-signin";
     }
-    await fetch(`${server}/readTransactions`)
+    await fetch(`${keys.server}/readTransactions`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) setTransactions(data.data);
         console.table(transactions);
       });
-    await fetch(`${server}/readHoldings`)
+    await fetch(`${keys.server}/readHoldings`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) setApproved(data.data);
         console.table(approved);
       });
-    await fetch(`${server}/readHoldingsNotActive`)
+    await fetch(`${keys.server}/readHoldingsNotActive`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) setNotApproved(data.data);
@@ -79,7 +77,7 @@ export default function Admin() {
       });
   }, []);
   const removeHolding = async (id) => {
-    await fetch(`${server}/adminRemoveHoliding?id=${id}`)
+    await fetch(`${keys.server}/adminRemoveHoliding?id=${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -91,7 +89,7 @@ export default function Admin() {
       });
   };
   const approveHolding = async (id) => {
-    await fetch(`${server}/approveHoliding?id=${id}`)
+    await fetch(`${keys.server}/approveHoliding?id=${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {

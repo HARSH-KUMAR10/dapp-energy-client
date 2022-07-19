@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
+const keys = require('../Keys')
 
-const server = "http://localhost:8001";
-// const server = "/api";
 export default function SignUp() {
   const checkData = (x) => {
     if (x === null || x === undefined || x === "") {
@@ -31,7 +30,7 @@ export default function SignUp() {
       setError(true);
       return;
     }
-    await fetch(`${server}/createUser?email=${email}&password=${pass}`)
+    await fetch(`${keys.server}/createUser?email=${email}&password=${pass}`)
       .then((res) => res.json())
       .then(async (data) => {
         console.log(data);
@@ -53,7 +52,7 @@ export default function SignUp() {
   return (
     <div>
       <Header />
-      <h4 style={styles.signUpHere}>Sign Up Here</h4>
+      <h4 style={styles.signInHere}>Sign Up Here</h4>
       <form style={styles.formOnly} onSubmit={(evt) => signup(evt)}>
         {error ? (
           <>
@@ -97,7 +96,7 @@ export default function SignUp() {
           onChange={(text) => setRepass(text.target.value)}
           value={repass}
         />
-        <br />
+        <br /><br/>
         <input type="submit" value="Submit" style={styles.submit} />
       </form>
     </div>
@@ -105,21 +104,22 @@ export default function SignUp() {
 }
 
 const styles = {
-  signUpHere: {
-    fontFamily: "monospace",
+  signInHere: {
+    fontFamily: "Arima",
     backgroundColor: "#4CAF50",
     color: "black",
     padding: "12px 20px",
-    width: "40%",
     margin: "15px 4px",
     textAlign: "center",
     borderRadius: "4px",
+    display:'inline-block',
+    fontWeight:'900',
   },
   formOnly: {
     borderRadius: "5px",
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#ccc",
     padding: 20,
-    margin: 20,
+    margin: '1% 5%',
   },
   input: {
     padding: "12px 20px",
@@ -133,13 +133,16 @@ const styles = {
     backgroundColor: "#4CAF50",
     color: "black",
     padding: "12px 20px",
-    width: "30%",
+    width: "29%",
     margin: "8px 0",
     cursor: "pointer",
-    fontFamily: "Verdana",
+    fontFamily: "Arima",
     borderRadius: "4px",
+    border:0
   },
   label: {
-    fontFamily: "Times new Roman",
+    fontFamily: "Arima",
+    fontSize:13,
+    fontWeight:'900'
   },
 };
