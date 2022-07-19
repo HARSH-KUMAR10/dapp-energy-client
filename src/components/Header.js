@@ -90,7 +90,6 @@ const styles = {
     color: "black",
     fontFamily: "Arima",
     cursor: "pointer",
-    border: "0.5px solid gray",
     borderRadius: "4px",
     padding: 10,
     margin:10,

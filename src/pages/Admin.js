@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect,useReducer } from "react";
 import AdminHeader from "../components/AdminHeader";
 import Gun from "gun/gun";
 const keys = require('../Keys');
@@ -27,11 +27,12 @@ export default function Admin() {
   const [transactions, setTransactions] = useState([]);
   const [approved, setApproved] = useState([]);
   const [notApproved, setNotApproved] = useState([]);
-  const [email, setEmail] = useState("");
-  const [id, setId] = useState("");
+  const [email,setEmail] = useState("");
+  const [id,setId] = useState("");
   const [state, dispatch] = useReducer(reducer, initialState);
   const [flag,setFlag]=useState(false);
-  useEffect(async () => {
+  useEffect(() => {
+    async function run(){
     var id = localStorage.getItem("_id");
     var email = localStorage.getItem("_email");
     if (checkData(id) && checkData(email)) {
@@ -75,7 +76,10 @@ export default function Admin() {
         if (data.success) setNotApproved(data.data);
         console.table(notApproved);
       });
-  }, []);
+    }
+    run();
+    console.log(email,id);
+  }, [approved]);
   const removeHolding = async (id) => {
     await fetch(`${keys.server}/adminRemoveHoliding?id=${id}`)
       .then((res) => res.json())
@@ -285,9 +289,3 @@ export default function Admin() {
     </div>
   );
 }
-
-const styles = {
-  alertTran: {
-    display: "flex",
-  },
-};

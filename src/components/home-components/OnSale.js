@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from "react";
+import { useState, useEffect } from "react";
 import Gun from "gun/gun";
 const keys = require('../../Keys');
 
@@ -110,7 +110,7 @@ export default function OnSale({ name, units, price, _id }) {
     }
   };
   return (
-    <div className="col-md-5 col-12" style={styles.contianer} key={Math.floor(Math.random() * 1000)}>
+    <div className="col-md-5 col-12" style={styles.contianer} key={Math.floor(Math.random() * 100000)}>
       {error ? (
         <>
           <label style={{ color: "red", fontWeight: 800, fontSize: 20 }}>

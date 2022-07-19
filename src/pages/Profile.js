@@ -20,34 +20,16 @@ export default function Profile() {
     }
     return true;
   };
-  useEffect(async () => {
-    var id = localStorage.getItem("id");
-    var email = localStorage.getItem("email");
-    var wallet = localStorage.getItem("wallet");
-    if (checkData(id) && checkData(email) && checkData(wallet)) {
-      setId(id);
-      setEmail(email);
-      setWallet(wallet);
-      await getTransactions();
-      await getHoldings();
-    } else {
-      alert("You are not loggedIn, redirecting to LogIn Page");
-      window.location.href = "signin";
-    }
-  }, [id]);
-  const openForm = () => {
-    setForm(true);
-  };
-  const saveHolding = async () => {
-    await fetch(
-      `${keys.server}/createHolding?email=${email}&id=${id}&units=${newUnits}&price=${newPrice}`
-    )
+  
+  const getTransactions = async () => {
+    await fetch(`${keys.server}/readTransacionByEmail?email=${email}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          setForm(false);
+          setTransactions(data.data);
+          console.log("transactions");
+          console.table(data.data);
           setError(false);
-          getHoldings();
         } else {
           setError(true);
         }
@@ -67,20 +49,44 @@ export default function Profile() {
         }
       });
   };
-  const getTransactions = async () => {
-    await fetch(`${keys.server}/readTransacionByEmail?email=${email}`)
+
+  useEffect(() => {
+    async function run(){
+      var id = localStorage.getItem("id");
+      var email = localStorage.getItem("email");
+      var wallet = localStorage.getItem("wallet");
+      if (checkData(id) && checkData(email) && checkData(wallet)) {
+        setId(id);
+        setEmail(email);
+        setWallet(wallet);
+        await getTransactions();
+        await getHoldings();
+      } else {
+        alert("You are not loggedIn, redirecting to LogIn Page");
+        window.location.href = "signin";
+      }
+    }
+    run();
+  }, []);
+  const openForm = () => {
+    setForm(true);
+  };
+  const saveHolding = async () => {
+    await fetch(
+      `${keys.server}/createHolding?email=${email}&id=${id}&units=${newUnits}&price=${newPrice}`
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          setTransactions(data.data);
-          console.log("transactions");
-          console.table(data.data);
+          setForm(false);
           setError(false);
+          getHoldings();
         } else {
           setError(true);
         }
       });
   };
+  
   return (
     <>
       <Header />

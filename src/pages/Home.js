@@ -15,7 +15,8 @@ export default function Home() {
   const [id, setId] = useState("");
   const [wallet, setWallet] = useState("");
   const [error, setError] = useState(false);
-  useEffect(async () => {
+  useEffect( () => {
+    async function run(){
     var id = localStorage.getItem("id");
     var email = localStorage.getItem("email");
     var wallet = localStorage.getItem("wallet");
@@ -25,6 +26,8 @@ export default function Home() {
       setWallet(wallet);
       await getHoldings();
     }
+  }
+  run();
   }, []);
   const getHoldings = async () => {
     await fetch(`${keys.server}/readHoldings`)
@@ -92,21 +95,21 @@ export default function Home() {
             ) : (
               <>
                 {saleData.map((item, index) => (
-                  <>
+                  <div key={index}>
                     {item.Email !== email ? (
                       <>
                         <OnSale
                           name={item.Email}
                           units={item.Units}
                           price={item.Price}
-                          key={Math.floor(Math.random() * 1000)}
+                          key={index}
                           _id={item._id}
                         />
                       </>
                     ) : (
                       <></>
                     )}
-                  </>
+                  </div>
                 ))}
               </>
             )}
@@ -127,7 +130,6 @@ export default function Home() {
         <h4
           style={{
             fontFamily: "Verdana",
-            color: "black",
             fontWeight: "900",
             color: "#4CAF50",
           }}
@@ -143,14 +145,14 @@ export default function Home() {
           <br /> Database : MongoDB Atlas, mongoose.
           <br /> Dapp technology : GunJS
           <br /> live project link :{" "}
-          <a href="https://energy-share-dapps.netlify.app/" target="_blank">
+          <a href="https://energy-share-dapps.netlify.app/" rel="noreferrer" target="_blank">
             link
           </a>
         </div>
         <hr />
         <div style={{ textAlign: "center" }}>
           <img
-            src="./assets/Energy Share.png"
+            src="/assets/energy-share.png"
             alt="energy-share"
             style={{ width: "75%" }}
           />
@@ -159,7 +161,6 @@ export default function Home() {
         <h4
           style={{
             fontFamily: "Verdana",
-            color: "black",
             fontWeight: "900",
             color: "#4CAF50",
           }}
@@ -182,7 +183,6 @@ export default function Home() {
         <h4
           style={{
             fontFamily: "Verdana",
-            color: "black",
             fontWeight: "900",
             color: "#4CAF50",
           }}
@@ -213,7 +213,6 @@ export default function Home() {
         <h4
           style={{
             fontFamily: "Verdana",
-            color: "black",
             fontWeight: "900",
             color: "#4CAF50",
           }}
