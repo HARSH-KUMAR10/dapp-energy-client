@@ -65,7 +65,7 @@ export default function SignUp()
             <br /><br />
             <label style={styles.label}>Re-type Password:</label><br />
             <input type="password" name="password" style={styles.input} placeholder="Enter password" onChange={(text) => setRepass(text.target.value)} value={repass} />
-            <br />
+            <br /><br />
             <input type="submit" value="Submit" style={styles.submit} />
         </form>
     </div>
@@ -74,42 +74,42 @@ export default function SignUp()
 
 const styles = {
     signUpHere: {
-        fontFamily: 'monospace',
+        fontFamily: 'Arima',
         backgroundColor: "#4CAF50",
         color: "black",
         padding: "12px 20px",
-        width: "40%",
         margin: "15px 4px",
         textAlign: "center",
         borderRadius: "4px",
+        display:'inline-block'
     },
     formOnly: {
         borderRadius: "5px",
         backgroundColor: "#f2f2f2",
         padding: 20,
         margin: 20,
+        fontFamily:'Arima'
     },
     input: {
         padding: "12px 20px",
-        width: "50%",
         margin: "8 0",
         border: "1px solid #ccc",
-        fontFamily: "Verdana",
+        fontFamily:'Arima',
         borderRadius: "4px",
+        width:'40%'
     },
     submit: {
         backgroundColor: "#4CAF50",
         color: "black",
         padding: "12px 20px",
-        width: "30%",
         margin: "8px 0",
         cursor: "pointer",
-        fontFamily: "Verdana",
+        fontFamily:'verdana',
         borderRadius: "4px",
+        border:0
     },
     label: {
-        fontFamily: "Times new Roman"
-
+        fontFamily:'Arima',
+        fontSize:15
     }
-
 };

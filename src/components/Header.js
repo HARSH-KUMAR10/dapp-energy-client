@@ -43,7 +43,7 @@ export default function Header()
                         Sign Up
                     </a>
                         <a href="signin" style={styles.signinSignUpBtn}>
-                            Sign In
+                            LogIn
                         </a>
                     </>)}
             </div>
@@ -57,20 +57,20 @@ const styles = {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        fontFamily: "monospace",
         backgroundColor: "#aaa",
         margin: "0px",
-        marginBottom: 10
-
+        marginBottom: 10,
+        padding:10
     },
     logo: {
         textDecoration: 'none',
         backgroundColor: "#4CAF50",
         borderRadius: "4px",
-        padding: 10,
-        color: "black"
-
-
+        padding: 15,
+        color: "black",
+        fontFamily:'verdana',
+        fontSize:25,
+        fontWeight:'900'
     },
     authModule: {
         display: "flex",
@@ -80,15 +80,15 @@ const styles = {
 
     },
     signinSignUpBtn: {
-        backgroundColor: "#4CAF50",
+        backgroundColor: "yellow",
         textDecoration: "none",
         color: "black",
         margin: 10,
-        fontFamily: "Monaco",
+        fontFamily: "Arima",
         cursor: "pointer",
-        border: "0.5px solid gray",
+        border: "0px solid gray",
         borderRadius: "4px",
         padding: 10,
-
+        fontWeight:'900'
     }
 };
