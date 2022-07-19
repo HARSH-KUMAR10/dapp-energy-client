@@ -158,5 +158,6 @@ const styles = {
     padding: 20,
     fontFamily: "Arima",
     borderRadius: 5,
+    margin:5
   },
 };

@@ -95,7 +95,7 @@ export default function Home() {
             ) : (
               <>
                 {saleData.map((item, index) => (
-                  <div key={index}>
+                  <>
                     {item.Email !== email ? (
                       <>
                         <OnSale
@@ -109,7 +109,7 @@ export default function Home() {
                     ) : (
                       <></>
                     )}
-                  </div>
+                  </>
                 ))}
               </>
             )}
