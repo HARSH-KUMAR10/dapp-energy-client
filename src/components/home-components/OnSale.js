@@ -157,7 +157,6 @@ const styles = {
     border: "1px solid gray",
     padding: 20,
     fontFamily: "Arima",
-    margin:10,
     borderRadius: 5,
   },
 };

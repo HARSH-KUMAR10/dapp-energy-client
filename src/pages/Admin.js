@@ -79,7 +79,7 @@ export default function Admin() {
     }
     run();
     console.log(email,id);
-  }, [approved]);
+  }, [email,flag,id,notApproved,state.transactions,transactions,approved]);
   const removeHolding = async (id) => {
     await fetch(`${keys.server}/adminRemoveHoliding?id=${id}`)
       .then((res) => res.json())

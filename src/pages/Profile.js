@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Holdings from "../components/profile-components/Holdings";
 import Transaction from "../components/profile-components/Transaction";
-const keys = require('../Keys');
+const keys = require("../Keys");
 
 export default function Profile() {
   const [email, setEmail] = useState("");
@@ -15,43 +15,14 @@ export default function Profile() {
   const [holdings, setHoldings] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const checkData = (x) => {
-    if (x === null || x === undefined || x === "" || x.length===0) {
+    if (x === null || x === undefined || x === "" || x.length === 0) {
       return false;
     }
     return true;
   };
-  
-  const getTransactions = async () => {
-    await fetch(`${keys.server}/readTransacionByEmail?email=${email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setTransactions(data.data);
-          console.log("transactions");
-          console.table(data.data);
-          setError(false);
-        } else {
-          setError(true);
-        }
-      });
-  };
-  const getHoldings = async () => {
-    await fetch(`${keys.server}/readHoldingById?id=${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setHoldings(data.data);
-          console.log("holding");
-          console.table(data.data);
-          setError(false);
-        } else {
-          setError(true);
-        }
-      });
-  };
 
   useEffect(() => {
-    async function run(){
+    async function run() {
       var id = localStorage.getItem("id");
       var email = localStorage.getItem("email");
       var wallet = localStorage.getItem("wallet");
@@ -59,8 +30,32 @@ export default function Profile() {
         setId(id);
         setEmail(email);
         setWallet(wallet);
-        await getTransactions();
-        await getHoldings();
+
+        await fetch(`${keys.server}/readTransacionByEmail?email=${email}`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              setTransactions(data.data);
+              console.log("transactions");
+              console.table(data.data);
+              setError(false);
+            } else {
+              setError(true);
+            }
+          });
+
+        await fetch(`${keys.server}/readHoldingById?id=${id}`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              setHoldings(data.data);
+              console.log("holding");
+              console.table(data.data);
+              setError(false);
+            } else {
+              setError(true);
+            }
+          });
       } else {
         alert("You are not loggedIn, redirecting to LogIn Page");
         window.location.href = "signin";
@@ -80,13 +75,24 @@ export default function Profile() {
         if (data.success) {
           setForm(false);
           setError(false);
-          getHoldings();
+          fetch(`${keys.server}/readHoldingById?id=${id}`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              setHoldings(data.data);
+              console.log("holding");
+              console.table(data.data);
+              setError(false);
+            } else {
+              setError(true);
+            }
+          });
         } else {
           setError(true);
         }
       });
   };
-  
+
   return (
     <>
       <Header />
@@ -117,7 +123,7 @@ export default function Profile() {
       >
         <h4 style={{ fontFamily: "Arima" }}>Your Holdings</h4>
         {form ? (
-          <div style={{fontFamily:'Arima'}}>
+          <div style={{ fontFamily: "Arima" }}>
             <input
               type="text"
               placeholder="Enter Units"
@@ -140,17 +146,24 @@ export default function Profile() {
               onClick={() => {
                 saveHolding();
               }}
-              style={{fontFamily:'Arima'}} className="btn btn-success"
+              style={{ fontFamily: "Arima" }}
+              className="btn btn-success"
             >
               +
             </button>
           </div>
         ) : (
-          <button style={{fontFamily:'Arima'}} className="btn btn-success" onClick={() => openForm()}>Add new holding +</button>
+          <button
+            style={{ fontFamily: "Arima" }}
+            className="btn btn-success"
+            onClick={() => openForm()}
+          >
+            Add new holding +
+          </button>
         )}
       </div>
 
-      <div style={{ padding:'0% 10%'}}>
+      <div style={{ padding: "0% 10%" }}>
         {error ? (
           <>
             <label style={{ color: "red", fontWeight: 800, fontSize: 20 }}>
@@ -170,14 +183,18 @@ export default function Profile() {
             <table
               cellSpacing={0}
               cellPadding={10}
-              style={{ width: "100%", border: "1px solid black",fontFamily:'Arima' }}
+              style={{
+                width: "100%",
+                border: "1px solid black",
+                fontFamily: "Arima",
+              }}
             >
               <tr
                 style={{
                   fontSize: 17,
                   backgroundColor: "blue",
                   color: "white",
-                  fontWeight:'900'
+                  fontWeight: "900",
                 }}
               >
                 <td>Sr</td>
@@ -203,8 +220,10 @@ export default function Profile() {
           </>
         )}
       </div>
-      <h4 style={{ fontFamily: "Arima", paddingTop: 40,paddingLeft:20 }}>Transactions</h4>
-      <div style={{ padding:'0% 10%'}}>
+      <h4 style={{ fontFamily: "Arima", paddingTop: 40, paddingLeft: 20 }}>
+        Transactions
+      </h4>
+      <div style={{ padding: "0% 10%" }}>
         {transactions.length === 0 ? (
           <h5>Your have no transactions, buy or sell energy units now.</h5>
         ) : (
@@ -212,14 +231,18 @@ export default function Profile() {
             <table
               cellSpacing={0}
               cellPadding={10}
-              style={{ width: "100%", border: "1px solid black",fontFamily:'Arima' }}
+              style={{
+                width: "100%",
+                border: "1px solid black",
+                fontFamily: "Arima",
+              }}
             >
               <tr
                 style={{
                   fontSize: 17,
                   backgroundColor: "blue",
                   color: "white",
-                  fontWeight:'900'
+                  fontWeight: "900",
                 }}
               >
                 <td>From</td>
