@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import OnSale from "../components/home-components/OnSale";
-const keys = require('../Keys');
+const keys = require("../Keys");
 
 export default function Home() {
-    console.log(keys);
   const checkData = (x) => {
     if (x === null || x === undefined || x === "") {
       return false;
@@ -16,7 +15,7 @@ export default function Home() {
   const [id, setId] = useState("");
   const [wallet, setWallet] = useState("");
   const [error, setError] = useState(false);
-  useEffect(() => {
+  useEffect(async() => {
     var id = localStorage.getItem("id");
     var email = localStorage.getItem("email");
     var wallet = localStorage.getItem("wallet");
@@ -24,8 +23,9 @@ export default function Home() {
       setEmail(email);
       setId(id);
       setWallet(wallet);
-      getHoldings();
+      await getHoldings();
     }
+    
   }, []);
   const getHoldings = async () => {
     await fetch(`${keys.server}/readHoldings`)
@@ -38,7 +38,6 @@ export default function Home() {
           setError(true);
         }
       });
-    console.table(saleData);
   };
   return (
     <div>
@@ -53,16 +52,17 @@ export default function Home() {
             paddingRight: 40,
           }}
         >
-          <h5 style={{fontFamily:'Arima'}}>Email : {email}</h5>
-          <h5 style={{fontFamily:'Arima'}}>Wallet : {wallet}</h5>
+          <h4>Email : {email}</h4>
+          <h4>Wallet : {wallet} $</h4>
         </div>
       ) : (
         <></>
       )}
+      <h4 style={styles.buyElecToday}>Buy Electricity Today</h4>
       <div style={styles.backGround}>
         {error ? (
           <>
-            <label style={{ color: "red", fontWeight: 800, fontSize: 20 }}>
+            <label style={{ color: "red", fontWeight: 800, fontSize: 13,fontFamily:'Arima' }}>
               Error: Not able to fetch holding, try again later.Try refreshing.
             </label>
             <br />
@@ -71,12 +71,12 @@ export default function Home() {
           <></>
         )}
         {id === "" ? (
-          <div style={{fontFamily:'Arima',fontSize:17,padding:10}}>
-            You are not signed In, please <a style={{fontFamily:'Arima',textDecoration:'none'}} href="/signin">sign in</a> first.
+          <>
+            You are not signed In, please <a href="/signin">sign in</a> first.
             <br />
             <br />
-            Don't have an account, <a style={{fontFamily:'Arima',textDecoration:'none'}} href="/signup">Create an account now</a>.
-          </div>
+            Don't have an account, <a href="/signup">Create an account now</a>.
+          </>
         ) : (
           <div
             style={{
@@ -98,7 +98,8 @@ export default function Home() {
                           name={item.Email}
                           units={item.Units}
                           price={item.Price}
-                          key={index}
+                          key={Math.floor(Math.random()*1000)}
+                          _id={item._id}
                         />
                       </>
                     ) : (
@@ -111,120 +112,40 @@ export default function Home() {
           </div>
         )}
       </div>
-      <div
-        id="about the project"
-        style={{
-          borderRadius: 5,
-          margin: "2%",
-          padding: 25,
-          backgroundColor: "#ccc",
-          fontFamily: "Ubuntu",
-        }}
-      >
-        <div style={{ textAlign: "center" }}>
-          <hr />
-          <img src="./assets/Energy Share.png" style={{ width: "60%" }} />
-          <hr />
+      <div style={{fontFamily:'Arima',backgroundColor:'#ccc',color:'#333',margin:10, padding:20,borderRadius:5}}>
+        <hr/>
+        <h4 style={{fontFamily:'Verdana',color:'black',fontWeight:'900',color:'#4CAF50'}}>About the project: </h4>
+        <div>
+        This project was created for implementation of the concept of decentralized network and database.
+        <br/>FrontEnd : ReactJS, Bootstrap.
+        <br/> Backend : Node, Express.
+        <br/> Database : MongoDB Atlas, mongoose.
+        <br/> Dapp technology : GunJS
+        <br/> live project link : <a href="https://energy-share-dapps.netlify.app/" target="_blank">link</a>
         </div>
-        <h1 style={{ textAlign: "center", fontWeight: "900" }}>
-          About the project - Energy Share
-        </h1>
-        <ul
-          style={{
-            fontSize: 15,
-            textAlign: "center",
-            padding: 10,
-            fontFamily: "Edu NSW ACT Foundation",
-          }}
-          type="none"
-        >
-          <li style={{ fontFamily: "Arima" }}>
-            This project was created for implementation of the concept of
-            decentralized network and database.
-          </li>
-          <li style={{ fontFamily: "Arima" }}>
-            FrontEnd : ReactJS, Bootstrap.
-          </li>
-          <li style={{ fontFamily: "Arima" }}>
-            Backend : Node, Express.
-          </li>
-          <li style={{ fontFamily: "Arima" }}>
-            Database : MongoDB Atlas, mongoose.
-          </li>
-          <li style={{ fontFamily: "Arima" }}>
-            Dapp technology : GunJS
-          </li>
-          <li style={{ fontFamily: "Arima" }}>
-            live project link :{" "}
-            <a style={{ fontFamily: "Arima" }} href="https://energy-share-dapps.netlify.app/" target="_blank">
-              click to visit live
-            </a>
-          </li>
-          <li style={{ fontFamily: "Arima" }}>
-            Created by : (Harsh Kumar) harshkumar093@gmail.com &amp; (Samit Dhawal) samitdhawal10@gmail.com
-          </li>
-        </ul>
-        <hr />
-        <h1 style={{ textAlign: "center", fontWeight: "900" }}>About GunJS</h1>
-        <div
-          style={{
-            fontSize: 15,
-            padding: "2% 10%",
-            fontFamily: "Arima",
-          }}
-        >
-          GUN is a small, easy, and fast protocol for syncing data. Because GUN
-          is small, it can be added to your app to improve a single feature.{" "}
-          <br />
-          <br />
-          But because GUN is easy, it can also replace hundreds or thousands of
-          lines of code, networking calls, storage boilerplate, pub/sub routing,
-          cache invalidation, and more. <br />
-          <br />
-          The power of GUN is that it abstracts this complexity into a unified
-          simple API that is very different than traditional systems, with the
-          aim of making it easy to build cool apps quickly.
-        </div>
-        <hr />
-        <h1 style={{ textAlign: "center", fontWeight: "900" }}>
-          Project Outline
-        </h1>
-        <div
-          style={{
-            fontSize: 15,
-            padding: "2% 10%",
-            fontFamily: "Arima",
-          }}
-        >
-          This is a market place for selling and buying energy units from an
-          online market. We have created the marketplace where a user will login
-          and add what are there holding to the market, before the holdings are
-          posted on the market, admin will have to approve the holding if found
-          proper or else reject.
-          <br />
-          <br /> Once a holding is approved by the admin, it will be avaiable to
-          all other users in the market to buy. When someone will buy the
-          holding the transactions will be saved in the mongodb database as well
-          as the decentralized gunjs database.
-          <br />
-          <br />
-          The benefit of saving the transactions on the decentralized database
-          is, none has the whole access on the data, and none can breach the
-          security and access the database as the data is distributed into many
-          nodes on the internet.
-        </div>
-        <hr />
+        <hr/>
+        <h4 style={{fontFamily:'Verdana',color:'black',fontWeight:'900',color:'#4CAF50'}}>About Gun JS:</h4>
       </div>
-      {/* <h3> Hello Samit </h3> */}
     </div>
   );
 }
 
 const styles = {
+  buyElecToday: {
+    fontFamily: "Arima",
+    backgroundColor: "#4CAF50",
+    color: "black",
+    padding: 20,
+    display:'inline-block',
+    margin: '1%',
+    textAlign: "center",
+    borderRadius: 5,
+    fontWeight:'900'
+  },
   backGround: {
     borderRadius: "5px",
     backgroundColor: "#f2f2f2",
     padding: 10,
-    margin: "2% 10%",
+    margin: "1% 10%",
   },
 };

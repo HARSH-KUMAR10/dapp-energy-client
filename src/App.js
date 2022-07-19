@@ -11,6 +11,7 @@ import
   Routes,
   Route,
 } from "react-router-dom";
+import AdminSignIn from "./pages/AdminSignIn";
 
 
 function App()
@@ -25,6 +26,7 @@ function App()
           <Route path="/profile" element={<Profile />} />
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin-signin" element={<AdminSignIn />} />
         </Routes>
       </BrowserRouter>
 

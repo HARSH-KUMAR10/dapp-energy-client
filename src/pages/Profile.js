@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Holdings from "../components/profile-components/Holdings";
 import Transaction from "../components/profile-components/Transaction";
-const keys = require('../Keys');
 
+
+const server = "http://localhost:8001";
+// const server = "/api";
 export default function Profile() {
   const [email, setEmail] = useState("");
   const [id, setId] = useState("");
@@ -15,7 +17,7 @@ export default function Profile() {
   const [holdings, setHoldings] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const checkData = (x) => {
-    if (x === null || x === undefined || x === "") {
+    if (x === null || x === undefined || x === "" || x.length===0) {
       return false;
     }
     return true;
@@ -31,15 +33,16 @@ export default function Profile() {
       await getTransactions();
       await getHoldings();
     } else {
+      alert("You are not loggedIn, redirecting to LogIn Page");
       window.location.href = "signin";
     }
-  }, [id, wallet, email]);
+  }, [id]);
   const openForm = () => {
     setForm(true);
   };
   const saveHolding = async () => {
     await fetch(
-      `${keys.server}/createHolding?email=${email}&id=${id}&units=${newUnits}&price=${newPrice}`
+      `${server}/createHolding?email=${email}&id=${id}&units=${newUnits}&price=${newPrice}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -53,7 +56,7 @@ export default function Profile() {
       });
   };
   const getHoldings = async () => {
-    await fetch(`${keys.server}/readHoldingById?id=${id}`)
+    await fetch(`${server}/readHoldingById?id=${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -67,7 +70,7 @@ export default function Profile() {
       });
   };
   const getTransactions = async () => {
-    await fetch(`${keys.server}/readTransacionByEmail?email=${email}`)
+    await fetch(`${server}/readTransacionByEmail?email=${email}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -89,12 +92,11 @@ export default function Profile() {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
-          padding: 10,
-          fontFamily:'Arima'
+          padding: 20,
         }}
       >
-        <h4 style={{fontFamily:'Arima'}}>{email}</h4>
-        <h4 style={{fontFamily:'Arima'}}>Wallet : {wallet}$</h4>
+        <h4>{email}</h4>
+        <h4>Wallet : {wallet}$</h4>
         <form style={styles.submit}>
           <a href="/wallet" style={styles.submit}>
             Add Money (+)
@@ -109,7 +111,7 @@ export default function Profile() {
           padding: 20,
         }}
       >
-        <h3 style={{ fontFamily: "Arima" }}>Your Holdings</h3>
+        <h3 style={{ fontFamily: "monospace" }}>Your Holdings</h3>
         {form ? (
           <div>
             <input
@@ -118,11 +120,6 @@ export default function Profile() {
               value={newUnits}
               onChange={(evt) => {
                 setNewUnits(evt.target.value);
-              }}
-              style={{
-                borderRadius: 5,
-                fontFamily: "Arima",
-                padding: 10,
               }}
             />
             {"  "}
@@ -133,21 +130,9 @@ export default function Profile() {
               onChange={(evt) => {
                 setNewPrice(evt.target.value);
               }}
-              style={{
-                borderRadius: 5,
-                fontFamily: "Arima",
-                padding: 10,
-              }}
             />
             {"  "}
             <button
-            style={{
-                borderRadius: 5,
-                fontFamily: "Arima",
-                padding: 10,
-                backgroundColor: "yellowgreen",
-                border: 0,
-              }}
               onClick={() => {
                 saveHolding();
               }}
@@ -156,32 +141,14 @@ export default function Profile() {
             </button>
           </div>
         ) : (
-          <button
-            style={{
-              borderRadius: 5,
-              fontFamily: "Arima",
-              padding: 10,
-              backgroundColor: "yellowgreen",
-              border: 0,
-            }}
-            onClick={() => openForm()}
-          >
-            Add new holding +
-          </button>
+          <button onClick={() => openForm()}>Add new holding +</button>
         )}
       </div>
 
       <div style={{ paddingLeft: 20, paddingRight: 20 }}>
         {error ? (
           <>
-            <label
-              style={{
-                color: "red",
-                fontWeight: 800,
-                fontSize: 15,
-                fontFamily: "Arima",
-              }}
-            >
+            <label style={{ color: "red", fontWeight: 800, fontSize: 20 }}>
               Error: Not able to add holding, try again later
             </label>
             <br />
@@ -190,29 +157,29 @@ export default function Profile() {
           <></>
         )}
         {holdings.length === 0 ? (
-          <h2>
+          <h4>
             Your current holding is empty, add new holding to sell electricity
-          </h2>
+          </h4>
         ) : (
           <>
             <table
               cellSpacing={0}
-              cellPadding={5}
-              style={{ width: "100%", border: "1px solid black",fontFamily:'Arima',borderRadius:5 }}
+              cellPadding={10}
+              style={{ width: "100%", border: "1px solid black" }}
             >
               <tr
                 style={{
                   fontSize: 18,
                   backgroundColor: "blue",
                   color: "white",
-                  fontFamily:'Arima'
                 }}
               >
-                <td></td>
-                <td style={{fontFamily:'Arima'}}>Sr</td>
-                <td style={{fontFamily:'Arima'}}>Units</td>
-                <td style={{fontFamily:'Arima'}}>Price</td>
-                <td style={{fontFamily:'Arima'}}>Action</td>
+                <td>Sr</td>
+                <td>Units</td>
+                <td>Price</td>
+                <td>Admin</td>
+                <td>Status</td>
+                <td>Action</td>
               </tr>
               {holdings.map((item, index) => (
                 <Holdings
@@ -220,14 +187,17 @@ export default function Profile() {
                   units={item.Units}
                   price={item.Price}
                   key={index}
+                  id={item._id}
+                  admin={item.AdminActive}
+                  sold={item.Sold}
                 />
               ))}
             </table>
           </>
         )}
       </div>
-      <h3 style={{ fontFamily: "Arima", padding: 20 }}>Transactions</h3>
-      <div style={{ paddingLeft: 20, paddingRight: 20,fontFamily: "Arima" }}>
+      <h3 style={{ fontFamily: "monospace", padding: 20 }}>Transactions</h3>
+      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
         {transactions.length === 0 ? (
           <h4>Your have no transactions, buy or sell energy units now.</h4>
         ) : (
@@ -244,10 +214,10 @@ export default function Profile() {
                   color: "white",
                 }}
               >
-                <td style={{fontFamily: "Arima"}}>From</td>
-                <td style={{fontFamily: "Arima"}}>To</td>
-                <td style={{fontFamily: "Arima"}}>Units</td>
-                <td style={{fontFamily: "Arima"}}>Price</td>
+                <td>From</td>
+                <td>To</td>
+                <td>Units</td>
+                <td>Price</td>
               </tr>
               {transactions.map((item, index) =>
                 item.From === email || item.To === email ? (
@@ -278,7 +248,7 @@ const styles = {
     color: "black",
     padding: "3px",
     margin: "1px",
-    fontFamily: "Arima",
+    fontFamily: "Verdana",
     borderRadius: "4px",
     textDecoration: "none",
   },

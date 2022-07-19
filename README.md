@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ## After Downloading the code
+=======
+## After Download the code
+>>>>>>> 2bed0db1b0da0cfadf79059ceab27c53c25b3092
 
 In the project directory, run the following command in terminal
 
@@ -29,6 +33,7 @@ GUN is a small, easy, and fast protocol for syncing data. Because GUN is small, 
 ## Project outline
 This is a market place for selling and buying energy units from an online market. We have created the marketplace where a user will login and add what are there holding to the market, before the holdings are posted on the market, admin will have to approve the holding if found proper or else reject. Once a holding is approved by the admin, it will be avaiable to all other users in the market to buy. When someone will buy the holding the transactions will be saved in the mongodb database as well as the decentralized gunjs database.
 
+<<<<<<< HEAD
 The benefit of saving the transactions on the decentralized database is, none has the whole access on the data, and none can breach the security and access the database as the data is distributed into many nodes on the internet.
 
 
@@ -46,3 +51,6 @@ The benefit of saving the transactions on the decentralized database is, none ha
 
 ## Transaction created and visible on admin side
 <img src="https://media.giphy.com/media/93rrJrgJinuoXSgnn1/giphy.gif"/>
+=======
+The benefit of saving the transactions on the decentralized database is, none has the whole access on the data, and none can breach the security and access the database as the data is distributed into many nodes on the internet.
+>>>>>>> 2bed0db1b0da0cfadf79059ceab27c53c25b3092
